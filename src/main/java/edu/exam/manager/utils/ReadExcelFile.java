@@ -20,12 +20,18 @@ public class ReadExcelFile {
     private static final String FILE_PATH = "C:\\Users\\Davi\\Dropbox\\Mock Planning OCA-OCP.xlsx";
 
 
-    public static List<Examinee>  readFile() {
+    public static List<Examinee>  readFile(CertificationEnum certification) {
         List<Examinee> examineeList  = new ArrayList<>();
         try {
             FileInputStream excelFile = new FileInputStream(new File(FILE_PATH));
             Workbook workbook = new XSSFWorkbook(excelFile);
-            Sheet datatypeSheet = workbook.getSheetAt(0);
+
+            Sheet datatypeSheet;
+            if (certification == CertificationEnum.OCA){
+                 datatypeSheet = workbook.getSheetAt(0);
+            } else {
+                datatypeSheet = workbook.getSheetAt(1);
+            }
             Iterator<Row> iterator = datatypeSheet.iterator();
 
             while (iterator.hasNext()) {
@@ -112,7 +118,16 @@ public class ReadExcelFile {
      */
     private static void setMockDate(Sheet datatypeSheet, Cell currentCell, MockExam exam) {
         Cell dateCell = datatypeSheet.getRow(0).getCell(currentCell.getColumnIndex());
-        exam.setExamDate(dateCell.getDateCellValue());
+
+        //if (dateCell.getCellTypeEnum() == CellType.NUMERIC){
+
+          //  if (DateUtil.isCellDateFormatted(dateCell)) {
+                //System.out.println(dateCell.getDateCellValue());
+                exam.setExamDate(dateCell.getDateCellValue());
+         //   }
+      //  }
+
+
         //System.out.println(dateCell.getDateCellValue());
     }
 
