@@ -1,0 +1,15 @@
+h1{
+	color:#0000FF;
+}
+
+h2{
+	color:#FF0000;
+}
+
+.name-cell {
+	max-width: 200px;
+}
+
+.mock-details span{
+	display: block;
+}

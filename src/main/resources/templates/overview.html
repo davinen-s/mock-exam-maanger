@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Spring Boot Thymeleaf Hello World Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css"
+	href="../webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+
+</head>
+<body>
+
+<!--navbar.-->
+<th:block th:include="fragments/navbar::content"></th:block>
+
+	<div class="container">
+
+		<table class="table table-striped table-responsive">
+			<tr>
+				<th>Name</th>
+				<th>Diagnostic Test (Mock1)</th>
+				<th>Practical Test I (Mock2)</th>
+				<th>Practical Test II (Mock3)</th>
+				<th>Practical Test III (Mock4)</th>
+				<th>Final Test (Mock5)</th>
+			</tr>
+			<tr th:each="examinee : ${examineeList}">
+                <td class="name-cell" th:text="${examinee.name}"></td>
+                <th:block th:each="exam : ${examinee.mockExams}">
+                    <td th:class="'mock-details ' + ${exam.statusCssClass}">
+                        <th:block th:if="${exam.currentMockExam} != null">
+                            <!--<span  th:text="${exam.currentMockExam.whizlabExamName}"></span>-->
+                            <span th:text="'Date: ' + ${#dates.dayOfWeekName(exam.examDate)} + ' ' + ${#calendars.format(exam.examDate,'dd MMMM')}"></span>
+                            <span th:text="'a/c: ' + (${#strings.isEmpty(exam.accountAssigned)}?'':${exam.accountAssigned})"></span>
+                        </th:block>
+                    </td>
+                </th:block>
+            </tr>
+
+		</table>
+
+
+	</div>
+	<!-- /.container -->
+
+	<script type="text/javascript" src="../webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
