@@ -7,7 +7,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,20 +60,9 @@ public class ReadExcelFile {
                     processRowData(datatypeSheet, currentRow, examinee);
                     examineeList.add(examinee);
                 }
-                    //getCellTypeEnum shown as deprecated for version 3.15
-                    //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
-                //TODO REMOVE THE FOLLOWING EXISTING TEMPLATE.
-                /* if (nameCell.getCellTypeEnum() == CellType.STRING) {
-                        System.out.print(nameCell.getStringCellValue() + "--");
-                    } else if (nameCell.getCellTypeEnum() == CellType.NUMERIC) {
-                        System.out.print(nameCell.getNumericCellValue() + "--");1
-                    }*/
 
             }
 
-            /*for(Examinee examinee: examineeList) {
-                System.out.println( examinee.toString());
-            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,16 +112,23 @@ public class ReadExcelFile {
     private static void setMockDate(Sheet datatypeSheet, Cell currentCell, MockExam exam) {
         Cell dateCell = datatypeSheet.getRow(0).getCell(currentCell.getColumnIndex());
 
-        //if (dateCell.getCellTypeEnum() == CellType.NUMERIC){
+        if (dateCell.getCellTypeEnum() == CellType.NUMERIC){
 
-          //  if (DateUtil.isCellDateFormatted(dateCell)) {
-                //System.out.println(dateCell.getDateCellValue());
                 exam.setExamDate(dateCell.getDateCellValue());
-         //   }
-      //  }
+        } else if (dateCell.getCellTypeEnum() == CellType.STRING) {
+            String dateString = dateCell.getStringCellValue();
 
 
-        //System.out.println(dateCell.getDateCellValue());
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            Date formattedDate;
+            try {
+                formattedDate = df.parse(dateString);
+                exam.setExamDate(formattedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     /**

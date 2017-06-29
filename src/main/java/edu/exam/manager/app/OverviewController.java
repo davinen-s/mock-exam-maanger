@@ -28,7 +28,7 @@ public class OverviewController {
 
 		final List<Examinee> examineeList = ReadExcelFile.readFile(CertificationEnum.OCA);
 		model.put(ModelNameUtils.EXAMINEE_LIST, examineeList);
-
+		model.put(ModelNameUtils.CERTIFICATION, CertificationEnum.OCA);
 		return "overview";
 	}
 
@@ -37,7 +37,7 @@ public class OverviewController {
 
 		final List<Examinee> examineeList = ReadExcelFile.readFile(CertificationEnum.OCP);
 		model.put(ModelNameUtils.EXAMINEE_LIST, examineeList);
-
+		model.put(ModelNameUtils.CERTIFICATION, CertificationEnum.OCP);
 		return "overview";
 	}
 

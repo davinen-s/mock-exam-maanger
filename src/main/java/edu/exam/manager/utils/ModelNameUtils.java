@@ -6,6 +6,7 @@ package edu.exam.manager.utils;
 public class ModelNameUtils {
 
 
+    public static final String CERTIFICATION = "certification";
     public static String EXAMINEE_LIST = "examineeList";
     public static String MESSAGE = "message";
 }
