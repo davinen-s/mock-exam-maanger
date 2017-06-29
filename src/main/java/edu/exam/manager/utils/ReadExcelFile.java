@@ -51,7 +51,10 @@ public class ReadExcelFile {
                 Cell nameCell = currentRow.getCell(0);
 
                 if (isString(nameCell)) {
-                    examinee = new Examinee(nameCell.getStringCellValue());
+                    String name = nameCell.getStringCellValue();
+                    if(!(name.contains("Not taking part") || name.contains("left acn"))) {
+                        examinee = new Examinee(name);
+                    }
                 }
 
                 if (examinee != null) {
