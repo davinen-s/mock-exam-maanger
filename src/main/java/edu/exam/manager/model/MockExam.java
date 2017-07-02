@@ -3,6 +3,7 @@ package edu.exam.manager.model;
 import edu.exam.manager.utils.MockExamEnum;
 import edu.exam.manager.utils.MockExamStatus;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 
 import java.util.Date;
 
@@ -51,15 +52,19 @@ public class MockExam {
         String cssClass = "";
         if (this.status == MockExamStatus.ATTEMPTED) {
             cssClass = "success";
-        } else if (this.status == MockExamStatus.SCHEDULED && this.examDate.compareTo( new Date()) < 0) {
+        } else if (this.status == MockExamStatus.SCHEDULED && isPassedScheduledDate()) {
             cssClass = "danger";
         } else if (this.status == MockExamStatus.TO_RESCHEDULED) {
             cssClass = "warning";
-
         }
 
 
         return cssClass;
+    }
+
+    private boolean isPassedScheduledDate() {
+        final Date today = new Date();
+        return !DateUtils.isSameDay(today, this.examDate) && this.examDate.before(today);
     }
 
     @Override

@@ -13,3 +13,18 @@ h2{
 .mock-details span{
 	display: block;
 }
+
+#overview-table th{
+    vertical-align: top;
+    text-align: center;
+}
+
+#legend{
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#legend td, #legend th{
+    max-width: 200px;
+    width: 200px
+}

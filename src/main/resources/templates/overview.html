@@ -20,7 +20,7 @@
 
 		<h3><span class="" th:text="${certification}"></span> Overview</h3>
 
-		<table class="table table-striped table-responsive">
+		<table class="table table-striped table-responsive" id="overview-table">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -53,6 +53,33 @@
 			</tr>
 			</tbody>
 		</table>
+
+		<br/>
+
+		<table id="legend" class="table table-bordered">
+			<tr>
+				<th colspan="2" class="text-center">Legend</th>
+			</tr>
+			<tr>
+				<td>Mock exam Scheduled</td>
+				<td>Date: Xxxx xx xxxx..</td>
+			</tr>
+			<tr>
+				<td>Mock exam Attempted</td>
+				<td class="success">Date: Xxxx xx xxxx..</td>
+			</tr>
+			<tr>
+				<td>To Reschedule Mock exam</td>
+				<td class="warning">Date: Xxxx xx xxxx..</td>
+			</tr>
+			<tr>
+				<td>Awaiting result and confirmation that exam was attempted. Chasing required</td>
+				<td class="danger">Date: Xxxx xx xxxx..</td>
+
+			</tr>
+		</table>
+
+		<br/><br/>
 
 
 	</div>
