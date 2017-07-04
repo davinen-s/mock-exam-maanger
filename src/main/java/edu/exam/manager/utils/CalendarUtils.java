@@ -10,9 +10,9 @@ import java.util.*;
 public class CalendarUtils {
 
 
-    public static List<Date> getWorkingDays(Date startDate, Date endDate) {
+    public static List<String> getWorkingDays(Date startDate, Date endDate) {
 
-        List<Date> dateList = new ArrayList<>();
+        List<String> dateList = new ArrayList<>();
 
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(startDate);
@@ -23,22 +23,21 @@ public class CalendarUtils {
         while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
             if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
                     startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
-                dateList.add(startCal.getTime());
+                dateList.add(startCal.getTime().toString());
             }
 
             startCal.add(Calendar.DAY_OF_MONTH, 1);
         }
 
 
-        System.out.println(dateList);
         return dateList;
 
     }
 
 
-    public static HashMap<Date, List<Examinee>> getWorkingDaysMap(Date startDate, Date endDate) {
+    public static HashMap<String, List<Examinee>> getWorkingDaysMap(Date startDate, Date endDate) {
 
-        HashMap<Date, List<Examinee>> examDates = new HashMap<>();
+        HashMap<String, List<Examinee>> examDates = new HashMap<>();
         List<Date> dateList = new ArrayList<>();
 
         Calendar startCal = Calendar.getInstance();
@@ -50,15 +49,12 @@ public class CalendarUtils {
         while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
             if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
                     startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
-                examDates.put(startCal.getTime(), new ArrayList<Examinee>());
+                examDates.put(startCal.getTime().toString(), new ArrayList<>());
             }
 
             startCal.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-
-        System.out.println(examDates.size());
-        System.out.println(dateList);
         return examDates;
 
     }

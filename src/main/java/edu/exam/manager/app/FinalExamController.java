@@ -14,6 +14,8 @@ import java.util.*;
 @Controller
 public class FinalExamController {
 
+/*@Value("${ocp.exam.file.location}")
+String ocpFileLocation;*/
 
 	@RequestMapping("/exam-dates")
 	public String ocaOverview(Map<String, Object> model) {
@@ -37,17 +39,22 @@ public class FinalExamController {
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		Date endDate = calendar.getTime();
 
-        final List<Date> workingDays = CalendarUtils.getWorkingDays(startDate, endDate);
+        final List<String> workingDays = CalendarUtils.getWorkingDays(startDate, endDate);
 
-        final HashMap<Date, List<Examinee>> workingDaysMap = CalendarUtils.getWorkingDaysMap(startDate, endDate);
+        HashMap<String, List<Examinee>> workingDaysMap = CalendarUtils.getWorkingDaysMap(startDate, endDate);
 
 
-        ReadExamFile.c("C:\\Users\\Davi\\Dropbox\\exam_planning\\OCA8_Final_Exam_planning_LastUpdate30.06.2017.xls");
+		// workingDaysMap = ReadExamFile.c("C:\\Users\\davinen.s.curoopen\\Documents\\capa_oca.ocp\\30.06.2017\\OCA8_Final_Exam_planning_LastUpdate30.06.2017.xls", 0, workingDaysMap);
+        // workingDaysMap = ReadExamFile.c("C:\\Users\\davinen.s.curoopen\\Documents\\capa_oca.ocp\\30.06.2017\\OCP7_Final_exam_planning_LastUpdated26.05.2017.xls", 4, workingDaysMap);
+
+        workingDaysMap = ReadExamFile.c("C:\\Users\\Davi\\Dropbox\\exam_planning\\OCA8_Final_Exam_planning_LastUpdate30.06.2017.xls", 0, workingDaysMap);
+        workingDaysMap = ReadExamFile.c("C:\\Users\\Davi\\Dropbox\\exam_planning\\OCP7_Final_exam_planning_LastUpdated26.05.2017.xls", 4, workingDaysMap);
+        //workingDaysMap = ReadExamFile.c(ocpFileLocation, 4, workingDaysMap);
 
         model.put(ModelNameUtils.WORKING_DAY_LIST, workingDays);
         model.put(ModelNameUtils.EXAM_DATE_MAP, workingDaysMap);
 
-        return "home";
+        return "exam-dates";
 	}
 
 }
