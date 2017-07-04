@@ -1,6 +1,7 @@
 package edu.exam.manager.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,6 +11,9 @@ public class Examinee {
 
     private String name;
     private List<MockExam> mockExams;
+    private Date finalExamDate;
+    private int finalExamIndex;
+
 
     /**
      * Default constructor.
@@ -57,5 +61,21 @@ public class Examinee {
 
 
         return sb.toString();
+    }
+
+    public Date getFinalExamDate() {
+        return finalExamDate;
+    }
+
+    public void setFinalExamDate(Date finalExamDate) {
+        this.finalExamDate = finalExamDate;
+    }
+
+    public int getFinalExamIndex() {
+        return finalExamIndex;
+    }
+
+    public void setFinalExamIndex(int finalExamIndex) {
+        this.finalExamIndex = finalExamIndex;
     }
 }

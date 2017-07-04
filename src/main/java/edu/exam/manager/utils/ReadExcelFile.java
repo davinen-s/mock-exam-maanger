@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import  edu.exam.manager.utils.ExcelUtils;
 
 /**
  * Created by Davi.
@@ -50,7 +51,7 @@ public class ReadExcelFile {
                 Examinee examinee = null;
                 Cell nameCell = currentRow.getCell(0);
 
-                if (isString(nameCell)) {
+                if (ExcelUtils.isString(nameCell)) {
                     String name = nameCell.getStringCellValue();
                     if(!(name.contains("Not taking part") || name.contains("left acn"))) {
                         examinee = new Examinee(name);
@@ -86,7 +87,7 @@ public class ReadExcelFile {
 
         while ( cellIterator.hasNext() ){
             Cell currentCell = cellIterator.next();
-            if(isString(currentCell) && currentCell.getStringCellValue().contains("Mock")){
+            if(ExcelUtils.isString(currentCell) && currentCell.getStringCellValue().contains("Mock")){
                 String recordedStatus = currentCell.getStringCellValue();
                 MockExam exam = new MockExam();
 
@@ -142,7 +143,7 @@ public class ReadExcelFile {
      */
     private static void setAssignedAccount(Row currentRow, Cell currentCell, MockExam exam) {
         Cell accountCell = currentRow.getCell(currentCell.getColumnIndex() + 1);
-        if (isString(accountCell)) {
+        if (ExcelUtils.isString(accountCell)) {
             exam.setAccountAssigned(accountCell.getStringCellValue());
         }
     }
@@ -182,12 +183,5 @@ public class ReadExcelFile {
     }
 
 
-    /**
-     * check if cell is not null and cell type is String.
-     * @param cell the cell to check.
-     * @return TRUE if cell is not null and cell type is String.
-     */
-    protected static Boolean isString(Cell cell) {
-        return cell != null && cell.getCellTypeEnum() == CellType.STRING;
-    }
+
 }
