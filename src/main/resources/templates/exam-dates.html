@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Spring Boot Thymeleaf Hello World Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+
+</head>
+<body>
+
+<!--navbar.-->
+<th:block th:include="fragments/navbar::content"></th:block>
+
+	<div class="container">
+
+		<table class="table table-striped table-responsive" id="overview-table">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Examinee</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="workingDay : ${workingDayList}">
+					<td th:text="${workingDay}"></td>
+					<td class="examinee-list-cell">
+					<th:block th:each="examinee: ${examDateMap.get('__${workingDay}__')}">
+						<span th:class="${examinee.voucherPurchased}?'success'">
+							<th:block th:text="${examinee.examSession} + ' -'"></th:block>
+                            <th:block th:text="'(' + ${examinee.certification} + ')'"></th:block>
+							<th:block th:text="${examinee.name}"></th:block>
+						</span>
+					</th:block>
+                   <!-- <span th:text="${examDateMap['__${workingDay}__']}"></span>-->
+					</td>
+				</tr>
+
+			</tbody>
+        </table>
+	</div>
+	<!-- /.container -->
+
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

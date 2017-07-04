@@ -28,3 +28,11 @@ h2{
     max-width: 200px;
     width: 200px
 }
+
+.examinee-list-cell span{
+    display: block;
+}
+
+.examinee-list-cell span.success {
+    background: #dff0d8;
+}

@@ -1,6 +1,12 @@
 package edu.exam.manager.model;
 
+import edu.exam.manager.utils.CertificationEnum;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.ss.usermodel.Color;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +19,8 @@ public class Examinee {
     private List<MockExam> mockExams;
     private Date finalExamDate;
     private int finalExamIndex;
+    private CertificationEnum certification;
+    private Boolean voucherPurchased;
 
 
 
@@ -79,5 +87,38 @@ public class Examinee {
 
     public void setFinalExamIndex(int finalExamIndex) {
         this.finalExamIndex = finalExamIndex;
+    }
+
+    public String getExamSession() {
+        String session = StringUtils.EMPTY;
+
+        if (this.finalExamDate != null ) {
+            final Calendar cal = Calendar.getInstance();
+            cal.setTime(finalExamDate);
+            int hour = cal.get(Calendar.HOUR);
+            session = (hour == 10)?  "10:15 AM" : "12.30 PM";
+        }
+
+        return session;
+    }
+
+    public CertificationEnum getCertification() {
+        return certification;
+    }
+
+    public void setCertification(CertificationEnum certification) {
+        this.certification = certification;
+    }
+
+    public Boolean getVoucherPurchased() {
+        return voucherPurchased;
+    }
+
+    public void setVoucherPurchased(Boolean voucherPurchased) {
+        this.voucherPurchased = voucherPurchased;
+    }
+
+    public void setVoucherPurchased (short colorHexCode) {
+        voucherPurchased = colorHexCode == 50;
     }
 }
