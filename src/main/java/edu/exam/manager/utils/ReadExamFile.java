@@ -2,9 +2,9 @@ package edu.exam.manager.utils;
 
 import edu.exam.manager.model.Examinee;
 import edu.exam.manager.model.MockExam;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,13 +20,9 @@ import static edu.exam.manager.utils.CalendarUtils.getFormattedDateString;
  */
 public class ReadExamFile {
 
-    static String OCA_FILE_PATH = "C:\\Users\\Davi\\Dropbox\\exam_planning\\OCA8_Final_Exam_planning_LastUpdate30.06.2017.xls";
-    static String OCP_FILE_PATH = "C:\\Users\\Davi\\Dropbox\\exam_planning\\OCP7_Final_exam_planning_LastUpdated26.05.2017.xls";
-
-    public static HashMap<String, List<Examinee>> process(CertificationEnum certification, int sheetIndex, HashMap<String, List<Examinee>> workingDaysMap) {
+    public static HashMap<String, List<Examinee>> process(String filePath, CertificationEnum certification, int sheetIndex, HashMap<String, List<Examinee>> workingDaysMap) {
 
         Boolean startProcessing = Boolean.FALSE;
-        String filePath = certification == (CertificationEnum.OCA )? OCA_FILE_PATH : OCP_FILE_PATH;
 
         try {
             FileInputStream excelFile = new FileInputStream(new File(filePath));
@@ -51,14 +47,11 @@ public class ReadExamFile {
 
                 if (ExcelUtils.isString(nameCell)) {
                     String name = nameCell.getStringCellValue();
-                    if (!(name.contains("Not taking part") || name.contains("left acn"))) {
+                    if (!(name.contains("Not taking part") || name.contains("left acn") || name.contains("dropped"))) {
                         examinee = new Examinee(name);
                         examinee.setCertification(certification);
                         setFinalExamDate(datatypeSheet, currentRow.getRowNum(), examinee);
-                        int coloredColumnIndex = (certification == CertificationEnum.OCA) ? 1 : 2;
-                        final Cell cell = datatypeSheet.getRow(currentRow.getRowNum()).getCell(coloredColumnIndex);
-                        CellStyle cs = cell.getCellStyle();
-                        examinee.setVoucherPurchased(cs.getFillForegroundColor());
+                        setPurchasedVoucherStatus(certification, datatypeSheet, currentRow, examinee);
 
                         System.out.println(examinee.getName() + " :" + examinee.getFinalExamDate());
                         Calendar cal = Calendar.getInstance();
@@ -87,6 +80,20 @@ public class ReadExamFile {
         return workingDaysMap;
 
 
+    }
+
+    /**
+     * Set the purchased Voucher status to true if cell background color is green.
+     * @param certification the current certification reading mode..
+     * @param datatypeSheet The datasheet being read.
+     * @param currentRow the current row.
+     * @param examinee the examinee for whom we are updating the purchased voucher status.
+     */
+    private static void setPurchasedVoucherStatus(CertificationEnum certification, Sheet datatypeSheet, Row currentRow, Examinee examinee) {
+        int coloredColumnIndex = (certification == CertificationEnum.OCA) ? 1 : 2;
+        final Cell cell = datatypeSheet.getRow(currentRow.getRowNum()).getCell(coloredColumnIndex);
+        CellStyle cs = cell.getCellStyle();
+        examinee.setVoucherPurchased(cs.getFillForegroundColor());
     }
 
     /**

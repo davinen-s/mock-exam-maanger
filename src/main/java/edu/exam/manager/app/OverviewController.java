@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class OverviewController {
 
-	// inject via application.properties
-	@Value("${welcome.message:test}")
-	private String message = "Hello World";
+    @Value("location.file.mock")
+    private String mockFileLocation;
 
 	/**
 	 * Get method for oca overview.
@@ -26,7 +25,7 @@ public class OverviewController {
 	@RequestMapping("/overview/oca")
 	public String ocaOverview(Map<String, Object> model) {
 
-		final List<Examinee> examineeList = ReadExcelFile.readFile(CertificationEnum.OCA);
+		final List<Examinee> examineeList = ReadExcelFile.readFile(CertificationEnum.OCA, mockFileLocation);
 		model.put(ModelNameUtils.EXAMINEE_LIST, examineeList);
 		model.put(ModelNameUtils.CERTIFICATION, CertificationEnum.OCA);
 		return "overview";
@@ -35,7 +34,7 @@ public class OverviewController {
 	@RequestMapping("/overview/ocp")
 	public String ocpOverview(Map<String, Object> model) {
 
-		final List<Examinee> examineeList = ReadExcelFile.readFile(CertificationEnum.OCP);
+		final List<Examinee> examineeList = ReadExcelFile.readFile(CertificationEnum.OCP, mockFileLocation);
 		model.put(ModelNameUtils.EXAMINEE_LIST, examineeList);
 		model.put(ModelNameUtils.CERTIFICATION, CertificationEnum.OCP);
 		return "overview";

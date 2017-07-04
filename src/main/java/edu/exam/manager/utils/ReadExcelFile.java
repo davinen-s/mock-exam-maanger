@@ -21,14 +21,11 @@ import  edu.exam.manager.utils.ExcelUtils;
  */
 public class ReadExcelFile {
 
-    //private static final String FILE_PATH = "\\\\IRONCORE\\Documents\\test-excel\\Mock Planning OCA-OCP.xlsx";
-    private static final String FILE_PATH = "C:\\Users\\Davi\\Dropbox\\Mock Planning OCA-OCP.xlsx";
 
-
-    public static List<Examinee>  readFile(CertificationEnum certification) {
+    public static List<Examinee>  readFile(CertificationEnum certification, String filePath) {
         List<Examinee> examineeList  = new ArrayList<>();
         try {
-            FileInputStream excelFile = new FileInputStream(new File(FILE_PATH));
+            FileInputStream excelFile = new FileInputStream(new File(filePath));
             Workbook workbook = new XSSFWorkbook(excelFile);
 
             Sheet datatypeSheet;
