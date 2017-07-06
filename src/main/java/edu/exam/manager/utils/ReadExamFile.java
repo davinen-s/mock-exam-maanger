@@ -50,25 +50,31 @@ public class ReadExamFile {
                     if (!(name.contains("Not taking part") || name.contains("left acn") || name.contains("dropped"))) {
                         examinee = new Examinee(name);
                         examinee.setCertification(certification);
-                        setFinalExamDate(datatypeSheet, currentRow.getRowNum(), examinee);
-                        setPurchasedVoucherStatus(certification, datatypeSheet, currentRow, examinee);
+                        try {
+                            setFinalExamDate(datatypeSheet, currentRow.getRowNum(), examinee);
+                            setPurchasedVoucherStatus(certification, datatypeSheet, currentRow, examinee);
 
-                        System.out.println(examinee.getName() + " :" + examinee.getFinalExamDate());
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(examinee.getFinalExamDate());
-                        cal.set(Calendar.MILLISECOND, 0);
-                        cal.set(Calendar.SECOND, 0);
-                        cal.set(Calendar.MINUTE, 0);
-                        cal.set(Calendar.HOUR_OF_DAY, 0);
+                            //System.out.println(examinee.getName() + " :" + examinee.getFinalExamDate());
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(examinee.getFinalExamDate());
+                            cal.set(Calendar.MILLISECOND, 0);
+                            cal.set(Calendar.SECOND, 0);
+                            cal.set(Calendar.MINUTE, 0);
+                            cal.set(Calendar.HOUR_OF_DAY, 0);
 
-                        String keyDateString = getFormattedDateString(cal.getTime());
+                            String keyDateString = getFormattedDateString(cal.getTime());
 
-                        List<Examinee> examinees = workingDaysMap.get(keyDateString);
-                        if (examinees != null) {
-                            examinees.add(examinee);
-                        } else {
-                            System.out.println("!!!!!!! Error fetching Date from Map:" + keyDateString);
+                            List<Examinee> examinees = workingDaysMap.get(keyDateString);
+                            if (examinees != null) {
+                                examinees.add(examinee);
+                            } else {
+                                System.out.println("!!!!!!! Error Date not found in the map for " + examinee.getName() + ": " + keyDateString);
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("Error processing data for " + examinee.getName() + " : " + e.getMessage());
                         }
+
                     }
                 }
             }
@@ -102,7 +108,7 @@ public class ReadExamFile {
      * @param rowNum the current row index.
      * @param examinee the {@link Examinee}
      */
-    private static void setFinalExamDate(Sheet datatypeSheet, int rowNum, Examinee examinee) {
+    private static void setFinalExamDate(Sheet datatypeSheet, int rowNum, Examinee examinee) throws ParseException {
         Cell dateCell = datatypeSheet.getRow(rowNum).getCell(2);
 
         if (dateCell.getCellTypeEnum() == CellType.NUMERIC){
@@ -119,6 +125,7 @@ public class ReadExamFile {
                 examinee.setFinalExamDate(formattedDate);
             } catch (ParseException e) {
                 e.printStackTrace();
+                throw e;
             }
 
         }
