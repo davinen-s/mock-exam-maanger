@@ -26,7 +26,7 @@ public class FinalExamController {
 	public String ocaOverview(Map<String, Object> model) {
 
         Date startDate = getDate(3, 6);
-        Date endDate = getDate(30, 8);
+        Date endDate = getDate(30, 10);
 
         final List<String> workingDays = CalendarUtils.getWorkingDays(startDate, endDate);
 

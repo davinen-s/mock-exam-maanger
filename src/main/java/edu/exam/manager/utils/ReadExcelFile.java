@@ -50,7 +50,7 @@ public class ReadExcelFile {
 
                 if (ExcelUtils.isString(nameCell)) {
                     String name = nameCell.getStringCellValue();
-                    if(!(name.contains("Not taking part") || name.contains("left acn"))) {
+                    if(!(name.contains("Not taking part") || name.contains("left acn")|| name.contains("dropped")|| name.contains("certified"))) {
                         examinee = new Examinee(name);
                     }
                 }
@@ -176,6 +176,10 @@ public class ReadExcelFile {
             exam.setCurrentMockExam(MockExamEnum.MOCK_4);
         } else if(recordedStatus.contains("Mock5")) {
             exam.setCurrentMockExam(MockExamEnum.MOCK_5);
+        } else if(recordedStatus.contains("Mock6")) {
+            exam.setCurrentMockExam(MockExamEnum.MOCK_6);
+        } else if(recordedStatus.contains("Mock7")) {
+            exam.setCurrentMockExam(MockExamEnum.MOCK_7);
         }
     }
 
